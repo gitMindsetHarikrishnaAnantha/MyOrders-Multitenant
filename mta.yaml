@@ -62,7 +62,7 @@ resources:
       service-plan: application
       path: ./xs-security.json
       config:
-        xsappname: 'myorders-${org}-${space}'
+        xsappname: 'myorders-app01'
         tenant-mode: shared
 
 
@@ -74,7 +74,7 @@ resources:
       service: saas-registry
       service-plan: application
       config:
-        xsappname: 'myorders-${org}-${space}'
+        xsappname: 'myorders-app01'
         appName: mindset-orderapp
         displayName: Order App
         description: A POC Name you can change
