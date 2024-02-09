@@ -1,0 +1,6 @@
+orderID,productID,productName,address,Location,phoneNumber,orderDate,seller
+OR234-1,P23434,Samsung A/C,4th Avenue,New York,44-888-444-974,2023-06-01,AKN Zone
+OR122-2,P34556,Hair Dryer,North 3rd st,New Jersey,44-756-444-426,2023-06-01,AKN Zone
+OR567-3,P98765,Sony Laptop,East 14th Avenue,Wisconsin,44-741-444-553,2023-06-01,AKN Zone
+OR574-4,P23456,Headset PV,South 2nd St,Texas,44-985-444-743,2023-06-01,AKN Zone
+OR086-5,P08743,Thermo Bottle OH,West 101 st,Dallas,44-235-444-553,2023-06-01,AKN Zone
