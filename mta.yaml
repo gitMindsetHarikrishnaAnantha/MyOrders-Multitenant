@@ -22,24 +22,26 @@ modules:
         properties:
           srv-url: ${default-url}
     requires:
-      - name: myorders-db
       - name: myorders-auth
-
-  - name: myorders-db-deployer
-    type: hdb
-    path: gen/db
-    parameters:
-      buildpack: nodejs_buildpack
-    requires:
-      - name: myorders-db
+      - name: app-api
+        properties:
+          SUBSCRIPTION_URL: "~{app-protocol}://\\${tenant_subdomain}-~{app-uri}"
 
   - name: myorders
     type: approuter.nodejs
     path: app/
     parameters:
+      stack: cflinuxfs4
       keep-existing-routes: true
-      disk-quota: 256M
-      memory: 256M
+      disk-quota: 512M
+      memory: 512M    
+    properties:
+      TENANT_HOST_PATTERN: '^(.*)-${default-uri}'
+    provides:
+      - name: app-api
+        properties:
+          app-protocol: '${protocol}'
+          app-uri: '${default-uri}'
     requires:
       - name: srv-api
         group: destinations
@@ -50,11 +52,7 @@ modules:
       - name: myorders-auth
 
 resources:
-  - name: myorders-db
-    type: com.sap.xs.hdi-container
-    parameters:
-      service: hana
-      service-plan: hdi-shared
+
   - name: myorders-auth
     type: org.cloudfoundry.managed-service
     parameters:
@@ -62,5 +60,7 @@ resources:
       service-plan: application
       path: ./xs-security.json
       config:
-        xsappname: myorders
-        tenant-mode: dedicated
+        xsappname: 'myorders-${org}-${space}'
+        tenant-mode: shared
+
+
