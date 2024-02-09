@@ -23,6 +23,8 @@ modules:
           srv-url: ${default-url}
     requires:
       - name: myorders-auth
+      - name: mtxdb-orders
+      - name: registry-orders
       - name: app-api
         properties:
           SUBSCRIPTION_URL: "~{app-protocol}://\\${tenant_subdomain}-~{app-uri}"
@@ -64,3 +66,29 @@ resources:
         tenant-mode: shared
 
 
+  - name: registry-orders
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: srv-api
+    parameters:
+      service: saas-registry
+      service-plan: application
+      config:
+        xsappname: 'myorders-${org}-${space}'
+        appName: mindset-orderapp
+        displayName: Order App
+        description: A POC Name you can change
+        category: MINDSET
+        appUrls:
+          getDependencies: ~{srv-api/srv-url}/-/cds/saas-provisioning/dependencies
+          onSubscription: '~{srv-api/srv-url}/-/cds/saas-provisioning/tenant/{tenantId}'
+          onSubscriptionAsync: false
+          onUnSubscriptionAsync: false
+          callbackTimeoutMillis: 100000
+
+
+  - name: mtxdb-orders
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: service-manager
+      service-plan: container
